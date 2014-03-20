@@ -1,0 +1,33 @@
+%Author: Ilie Stefan Ionut 242
+%Date:13.03.2014
+
+| ?- a=X.
+% X este unita cu constanta a
+| ?- X=3.
+% X este unita cu constanta 3
+| ?- X=X.
+% X este unita cu X
+| ?- X=Y.
+% Y este unita cu Y
+| ?- 3=2.
+% cum si 3 si 2 sunt constante, = va face precum ==, deci va testa
+% egalitatea. => false
+| ?- 3==X.
+% constanta comparata cu var X
+| ?- 3=:=X.
+% =:= egalitate aritmetica => genereaza eroare fiindca incercam
+% sa facem o comparatie intre o constanta si o var neinstantiata
+| ?- X is 3.
+% lui x i se atribuie constantei 3
+| ?- X is a.
+% Cum 'a' nu e expresie, va arunca o eroare.
+| ?- X is 2+3.
+% X va lua valuarea data de calculul 2+3.
+| ?- 3 is X.
+% Va genera eroare, pentru ca constantei 3 nu i se pot atribui valori
+| ?- X \= Y.
+% Pentru ca cele doua valori sunt neinstantiate va returna false.
+| ?- 3 \= Y.
+% La fel ca in cazul anterior va returna false mereu pentru ca nu se poate compara o constanta cu o variabila neinstantiata.
+| ?- ab \= bc.
+% Returneaza true mereu pentru ca \= este negatia unificarii.
