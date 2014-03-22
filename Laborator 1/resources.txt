@@ -1,0 +1,48 @@
+Constante - Pot fi numere (ex: 23, -5, 4.2, -1.0e-10 etc.) sau atomi. Atomii sunt secvente de caractere (alfanumerice sau, conform specificatiilor, din setul: + - * / \ ^ < > = ~ : . ? @ # $ &) care obligatoriu nu pot	incepe cu litera mare ori cu caracterul _ si nu pot contine spatii. Atentie, caracterele alfanumerice nu trebuie amestecate cu celelalte (din setul de mai sus), adica, de exemplu, +++ este atom dar +m+ nu este Atomii se pot scrie si intre apostroafe, caz in care in componenta lor pot aparea si spatii iar sirul de caractere care se afla inauntrul apostroafelor poate in acest caz sa inceapa cu litera mare ori _. De asemenea intre apostroafe putem avea si combinatii de caractere alfanumerice cu nealfanumerice, de exemplu, '+m+' este un atom. Alte exemple de atomi: abc, '_abc', a321, 'Alba ca Zapada'. 
+
+Variabile - Numele lor se reprezinta prin secvente de caractere care incep cu litera mare sau _
+
+Fapte - Reprezinta afirmatii, cunostinte considerate adevarate.
+
+predicat(arg1,...,argn).
+
+Reguli
+
+concluzie(...):- set de premise aflate in diverse relatii logice
+
+Scopuri (interogari) - se folosesc pentru a obtine diverse inxformatii din baza de cunostinte. Fie doar testeaza valoarea de adevar (daca interogarea nu contine variabile), fie ofera setul de valori pentru variabilele din interogare astfel incat predicatul interogarii sa aiba valoarea de adevar true.
+| ?- predicat_interogare(termen).
+| ?- predicat_interogare(Variabila).
+Obtinerea solutiilor pentru interogarile cu variabile se face in Prolog cu ajutorul unui mecanism de Backtracking intern.
+
+
+
+
+Sintaxa:
+
+:	predicat, scop, modul.
++	argumentul trebuie sa aiba valoare cunoscuta, la apelarea predicatului.
+-	argumentul nu trebuie sa fie instantiat, la apelarea predicatului.
+?	argumentul poate sa aiba valoare cunoscuta sau nu neaparat.
+
+
+-operatori
+,	si
+;	sau
+\+	negare
+
+-comparatii aritmetice
+<	predicat, scop, modul.
+=<	argumentul trebuie sa aiba valoare cunoscuta, la apelarea predicatului.
+>	argumentul nu trebuie sa fie instantiat, la apelarea predicatului.
+>=	argumentul poate sa aiba valoare cunoscuta sau nu neaparat.
+=:=	egalitate aritmetica
+=\=	inegalitate aritmetica
+
+-comparatii intre termeni
+@<	predicat, scop, modul.
+@=<	argumentul trebuie sa aiba valoare cunoscuta, la apelarea predicatului.
+@>	argumentul nu trebuie sa fie instantiat, la apelarea predicatului.
+@>=	argumentul poate sa aiba valoare cunoscuta sau nu neaparat.
+==	egalitate intre termeni
+\==	termeni diferiti
