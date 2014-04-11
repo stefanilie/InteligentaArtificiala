@@ -101,9 +101,19 @@ pred_cursuri(CL, P, SS, CR, L, E) :- (SS == 'AUNC', !, true; SS=='sanatos', !, t
 // unu care in mom in care ii bagi sanatatea sa iti dea equipement
 // unu care in mom in care bagi toate astea de mai sus sa iti scuipe locatia/
 };
-if ($@) {
-	# handle failure...
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /*
 /*------Solution Predicate-----------*/
