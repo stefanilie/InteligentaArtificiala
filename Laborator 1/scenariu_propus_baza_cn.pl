@@ -90,63 +90,16 @@ verif(_) :- X is 'shaorma', write(X).
 
 /*   pred_cursuri(+Clasa, +Profil, +Stare_sanatate, -Curs, -Loc, -Echipament_special )
 
-
-pred_cursuri(CL, P, SS, CR, L, E) :- (SS == 'AUNC', !, true; SS=='sanatos', !, true), 
-									 (P=='matematica', profil_matematica('matematica', CL), (CR = 'matematica', CR = ''), L = 'Micul alpinist', E = 'laptop', !, true; 
-									 	P=='filologie', profil_filologie('literatura_universa', CL);
-									 	P=='artistic', profil_artistic('pictura', CL), !, true),
-									 	(write(CR), write(L), write(E), !, true). 
-*/
-//fa un predicat care iti face daca este profil la mate, sa iti scuipe toate materiile in fct de anu in care e, 
-// unu care in mom in care ii bagi sanatatea sa iti dea equipement
-// unu care in mom in care bagi toate astea de mai sus sa iti scuipe locatia/
-};
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-/*------Solution Predicate-----------*/
-
-getCycle(G,Cy) :- (G >= 1 , G =< 4) -> Cy is 0 ; (G >= 5 , G =< 8) -> Cy = 1 ; (G >= 9 , G =< 12) -> Cy = 2 ; write('Invalid'),fail.
-
-getCourse(Cy,P,C) :- (Cy =:= 0 , P = 'mathematic') -> C = 'mathematics' ; 
-((Cy =:= 1;Cy =:= 2) , P = 'mathematic') -> (C = 'mathematics' ; C = 'physics' ; C = 'computer science') ; 
-(Cy =:= 0 , P = 'philological') -> C = '' ; 
-(Cy =:= 1 , P = 'philological') -> C = 'literature' ; 
-(Cy =:= 2 , P = 'philological') -> C = 'composition' ; 
-((Cy =:= 0 ; Cy =:= 1) , P = 'artistic') -> C = 'drawing' ; 
-(Cy =:= 2 , P = 'artistic') -> C = 'painting' ; write('Invalid'),fail.
-
-getLocation(Cy,C,H,L) :- ((Cy =:= 0;Cy =:= 1; Cy =:= 2),
-(C = 'mathematics';C = 'literature';C = 'painting'),
-(H = 'healthy'; H = 'partially unhealthy c'; H = 'partially unhealthy uc')) -> L = 'Micul Aplinist' ; 
-((Cy =:= 0; Cy =:= 1),(C = 'drawing';C = 'mathematics';C = 'computer science';C = 'physics'),
-(H = 'healthy';H = 'partially unhealthy c'; 
-	H = 'partially unhealthy uc' ; 
-	H = 'severely unhealthy c' ; 
-	H = 'severely unhealthy uc')) -> L = 'Internat Central' ; 
-((Cy =:= 2),(C = 'physics'),
-	(H = 'healthy';H = 'partially unhealthy c'; 
-		H = 'partially unhealthy uc' ; 
-		H = 'severely unhealthy uc')) -> L = 'Physics Institute' ; 
-((H = 'severely unhealthy c' ; H = 'severely unhealthy uc'),
-	(C = 'mathematics' ; 
-		C = 'drawing' ; 
-		C = 'painting' ; 
-		C = 'composition' ; 
-		C = 'literature')) -> L = 'Hospital' ; 
-(C = 'composition') -> L = 'Cenaclul Scriitorasul' ; write('Invalid'),fail.
-
-getEquipment(H,P,E) :- (H = 'severely unhealthy c' ; H = 'severely unhealthy uc') -> E = 'laptop' ; (P = 'mathematic') -> E = 'laptop' ; (P = 'philological') -> E = 'ebook reader' ; (P = 'artistic') -> E = 'drawing kit' ; write('Invalid'),fail.
-*/
+/* acest predicat va primi ca parametru numele unui profil, iar pe baza celui de-al doilea va genera materiile pe care le contine */
+materie_profil_an(P, X, O) :- (P == 'matematica') ->
+									(((etapa('primara', X), !, true), O = 'matematica'); 
+									((etapa('gimnaziu', X), !, true), (O = 'matematica'; O = 'fizica'; O = 'informatica')); 
+									((etapa('liceu', X), !, true), (O = 'matematica'; O = 'fizica'; O = 'informatica')));
+							   (P == 'filologie') ->
+							   		(((etapa('primara', X), !, true), O = '');
+							   		((etapa('gimnaziu', X), !, true), (O = 'literatura universala'));
+							   		((etapa('liceu', X), !, true), (O = 'compuneri liberere')));
+							   (P == 'artistic') ->
+							   		(((etapa('primara', X), !, true), O = 'desen');
+							   		((etapa('gimnaziu', X), !, true), O = 'desen');
+							   		((etapa('liceu', X), !, true), O = 'pictura')).
