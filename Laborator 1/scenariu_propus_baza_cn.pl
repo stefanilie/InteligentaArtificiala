@@ -56,6 +56,8 @@ etapa('primara', X) :- X >=1, X =< 4.
 etapa('gimnaziu', X) :- X > 4, X =< 8.
 etapa('liceu', X) :- X > 8, X =< 12.
 
+
+
 /* Predicatele urmatoare verifica daca materia "interogata", se face in anul pus in variabila X*/
 profil_matematica('matematica', X) :- (etapa('primara', X), !, true); (etapa('gimnaziu', X), !, true); (etapa('liceu', X), !, true).
 profil_matematica('fizica', X) :- (etapa('gimnaziu', X), !, true); (etapa('liceu', X), !, true). 
@@ -86,10 +88,6 @@ profil('matematica') :- profil_matematica(_), !, true.
 profil('filologie') :- profil_filologie(_), !, true.
 profil('artistic') :- profil_artistic(_), !, true.
 
-verif(_) :- X is 'shaorma', write(X).
-
-/*   pred_cursuri(+Clasa, +Profil, +Stare_sanatate, -Curs, -Loc, -Echipament_special )
-
 /* acest predicat va primi ca parametru numele unui profil, iar pe baza celui de-al doilea va genera materiile pe care le contine */
 materie_profil_an(P, X, O) :- (P == 'matematica') ->
 									(((etapa('primara', X), !, true), O = 'matematica'); 
@@ -104,7 +102,25 @@ materie_profil_an(P, X, O) :- (P == 'matematica') ->
 							   		((etapa('gimnaziu', X), !, true), O = 'desen');
 							   		((etapa('liceu', X), !, true), O = 'pictura')).
 
-echipament()
+echipament(SS, P, E) :- (SS = 'boala grava contagioasa'; SS='boala grava necontagioasa') -> E = 'laptop';
+						(P = 'matematica') -> E = 'laptop';
+						(P = 'filologie') -> E = 'ebook reader';
+						(P = 'artistic') -> E = 'trusa desen'.
+
+/* et=etapa, co = curs de urmat, ss=stare sanatate, l=locatie*/
+locatie(Et, Co, SS, L) :- ((Et == 'primara'; Et == 'gimnaziu'; Et == 'liceu'),
+								(Co = 'matematica'; C = 'literatura'; C = 'pictura'),
+								(SS = 'sanatos'; SS = 'afectiune usoara c'; SS = 'afectiune usoara nc')) -> L = 'Micul Alpinist';
+						  ((Et == 'primara'; Et == 'gimnaziu'), (Co = 'desen'; Co = 'matematica'; Co = 'informatica'; Co = 'fizica'),
+						  	(SS = 'sanatos'; SS = 'afectiune usoara c'; SS = 'afectiune usoara nc'; SS = 'boala grava c'; SS = 'boala grava nc'))-> L = 'Internat Central';
+						  ((Et == 'liceu'), (Co = 'fizica'), 
+						  	(SS = 'sanatos'; SS = 'afectiune usoara c'; SS = 'afectiune usoara nc'; SS = 'boala grava nc')) -> L = 'Institutul de cercetare fizica';
+						  ((SS ='boala grava c'; SS = 'boala grava nc'), 
+						  	(Co = 'matematica'; Co = 'desen'; Co = 'copuneri libere'; Co = 'literatura universala';)) -> L = 'Spitatul pediatric';
+						  (Co = 'compuneri libere') -> L = 'Cenaclul Scriitorasul';
+
+
+alege(Cl, Pr, SS, Co, L, E) :- materie_profil_an(Pr, Cl, O), locatie()
 
 
 
@@ -114,74 +130,62 @@ echipament()
 
 
 /*
+Stack trace:
+| ?- consult('scenariu_propus_baza_cn.pl').
+compiling /home/stefan/Documents/AIISem2/git/InteligentaArtificiala/Laborator 1/scenariu_propus_baza_cn.pl for byte code...
+/home/stefan/Documents/AIISem2/git/InteligentaArtificiala/Laborator 1/scenariu_propus_baza_cn.pl:108:3: syntax error: . or operator expected after expression
+	1 error(s)
+compilation failed
 
+no
+| ?- consult('scenariu_propus_baza_cn.pl').
+compiling /home/stefan/Documents/AIISem2/git/InteligentaArtificiala/Laborator 1/scenariu_propus_baza_cn.pl for byte code...
+/home/stefan/Documents/AIISem2/git/InteligentaArtificiala/Laborator 1/scenariu_propus_baza_cn.pl compiled, 111 lines read - 14937 bytes written, 16 ms
 
+(4 ms) yes
+| ?- materie_profil_an('matematica', 5)
+.
+uncaught exception: error(existence_error(procedure,materie_profil_an/2),top_level/0)
+| ?- materie_profil_an('matematica', 5, O).
 
+O = matematica ? ;
 
+O = fizica ? ;
 
-pred_cursuri(CL, P, SS, CR, L, E) :- (SS == 'AUNC', !, true; SS=='sanatos', !, true), 
-									 (P=='matematica', profil_matematica('matematica', CL), (CR = 'matematica', CR = ''), L = 'Micul alpinist', E = 'laptop', !, true; 
-									 	P=='filologie', profil_filologie('literatura_universa', CL);
-									 	P=='artistic', profil_artistic('pictura', CL), !, true),
-									 	(write(CR), write(L), write(E), !, true). 
+O = informatica
 
-//fa un predicat care iti face daca este profil la mate, sa iti scuipe toate materiile in fct de anu in care e, 
-// unu care in mom in care ii bagi sanatatea sa iti dea equipement
-// unu care in mom in care bagi toate astea de mai sus sa iti scuipe locatia/
-};
-*/
+yes
+| ?- materie_profil_an('matematica', 1, O).
 
+O = matematica
 
+yes
+| ?- materie_profil_an('matematica', 12, O).
 
+O = matematica ? ;
 
+O = fizica ? ;
 
+O = informatica
 
+(4 ms) yes
+| ?- materie_profil_an('filologie', 1, O).  
 
+O = ''
 
+(4 ms) yes
+| ?- materie_profil_an('filologie', 5, O).
 
+O = 'literatura universala'
 
+yes
+| ?- materie_profil_an('filologie', 12, O). 
 
-/*
+O = 'compuneri liberere'
 
-/*
-/*------Solution Predicate-----------*/
-
-getCycle(G,Cy) :- (G >= 1 , G =< 4) -> Cy is 0 ; (G >= 5 , G =< 8) -> Cy = 1 ; (G >= 9 , G =< 12) -> Cy = 2 ; write('Invalid'),fail.
-
-getCourse(Cy,P,C) :- (Cy =:= 0 , P = 'mathematic') -> C = 'mathematics' ; 
-((Cy =:= 1;Cy =:= 2) , P = 'mathematic') -> (C = 'mathematics' ; C = 'physics' ; C = 'computer science') ; 
-(Cy =:= 0 , P = 'philological') -> C = '' ; 
-(Cy =:= 1 , P = 'philological') -> C = 'literature' ; 
-(Cy =:= 2 , P = 'philological') -> C = 'composition' ; 
-((Cy =:= 0 ; Cy =:= 1) , P = 'artistic') -> C = 'drawing' ; 
-(Cy =:= 2 , P = 'artistic') -> C = 'painting' ; write('Invalid'),fail.
-
-getLocation(Cy,C,H,L) :- ((Cy =:= 0;Cy =:= 1; Cy =:= 2),
-(C = 'mathematics';C = 'literature';C = 'painting'),
-(H = 'healthy'; H = 'partially unhealthy c'; H = 'partially unhealthy uc')) -> L = 'Micul Aplinist' ; 
-((Cy =:= 0; Cy =:= 1),(C = 'drawing';C = 'mathematics';C = 'computer science';C = 'physics'),
-(H = 'healthy';H = 'partially unhealthy c'; 
-	H = 'partially unhealthy uc' ; 
-	H = 'severely unhealthy c' ; 
-	H = 'severely unhealthy uc')) -> L = 'Internat Central' ; 
-((Cy =:= 2),(C = 'physics'),
-	(H = 'healthy';H = 'partially unhealthy c'; 
-		H = 'partially unhealthy uc' ; 
-		H = 'severely unhealthy uc')) -> L = 'Physics Institute' ; 
-((H = 'severely unhealthy c' ; H = 'severely unhealthy uc'),
-	(C = 'mathematics' ; 
-		C = 'drawing' ; 
-		C = 'painting' ; 
-		C = 'composition' ; 
-		C = 'literature')) -> L = 'Hospital' ; 
-(C = 'composition') -> L = 'Cenaclul Scriitorasul' ; write('Invalid'),fail.
-
-getEquipment(H,P,E) :- (H = 'severely unhealthy c' ; H = 'severely unhealthy uc') -> E = 'laptop' ; (P = 'mathematic') -> E = 'laptop' ; (P = 'philological') -> E = 'ebook reader' ; (P = 'artistic') -> E = 'drawing kit' ; write('Invalid'),fail.
-*/
-
-
-
-
+yes
 
 
 */
+
+
