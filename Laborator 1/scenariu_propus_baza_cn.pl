@@ -56,7 +56,7 @@ etapa('primara', X) :- X >=1, X =< 4.
 etapa('gimnaziu', X) :- X > 4, X =< 8.
 etapa('liceu', X) :- X > 8, X =< 12.
 
-
+retEtapa(X, Et) = (X >= 1, X =< 4) -> Et = 'primara'; (X>=5, X=< 8) -> Et = 'gimnaziu'; (X >= 9, X =< 12) -> Et = 'liceu'.
 
 /* Predicatele urmatoare verifica daca materia "interogata", se face in anul pus in variabila X*/
 profil_matematica('matematica', X) :- (etapa('primara', X), !, true); (etapa('gimnaziu', X), !, true); (etapa('liceu', X), !, true).
@@ -117,11 +117,10 @@ locatie(Et, Co, SS, L) :- ((Et == 'primara'; Et == 'gimnaziu'; Et == 'liceu'),
 						  	(SS = 'sanatos'; SS = 'afectiune usoara c'; SS = 'afectiune usoara nc'; SS = 'boala grava nc')) -> L = 'Institutul de cercetare fizica';
 						  ((SS ='boala grava c'; SS = 'boala grava nc'), 
 						  	(Co = 'matematica'; Co = 'desen'; Co = 'copuneri libere'; Co = 'literatura universala';)) -> L = 'Spitatul pediatric';
-						  (Co = 'compuneri libere') -> L = 'Cenaclul Scriitorasul';
+						  (Co = 'compuneri libere') -> L = 'Cenaclul Scriitorasul'.
 
 
-alege(Cl, Pr, SS, Co, L, E) :- materie_profil_an(Pr, Cl, O), locatie()
-
+alege(Cl, Pr, SS, Co, L, E) :- retEtapa(Cl, Et), materie_profil_an(Pr, Cl, O), locatie(Et, O, SS, L), echipament(SS, Pr, E).
 
 
 
