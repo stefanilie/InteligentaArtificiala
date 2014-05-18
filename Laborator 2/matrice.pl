@@ -24,7 +24,7 @@ X si Y elementului in matrice
 
 ID va tine minte numarul elementului. Predicatul va face mai intai o unificare a listei, 
 apoi va cauta coordonatele sale in matrice, le va verifica daca X si Y gasite, sunt egale cu cele date ca parametru si daca da, 
-va cauta recursiv in lista de 
+va cauta recursiv in lista de elemente.
 */
 
 
@@ -43,6 +43,7 @@ element_matrice2(nume, ID, X, Y, Val) :- element_2(nume, ID, list), indexID(list
 											(N1 is ID+1,element_matrice2(nume,N1,X,Y,Val))).
 
 
+
 /*
 This solution is similar to the first.
 The difference is that it uses only the index of the element and not the
@@ -53,27 +54,38 @@ X = index mod length ( X axis ).
 Y = index divide depth ( Y axis ).
 */
 
-/*Solutia 3 - */
+/*Solutia 3 - indice*/
+
 /*
-		
+	Aceasta solutie va avea drept caracteristica definitorie indexul, sau IDul. 
+	In loc sa stocheze pentru fiecare numar sau element, pozitia sa in matrice (X si Y), 
+	va stoca numai un ID, incapand de la 0. Astfel daca avem o matrice de 3x3 implicit vom
+	avea 9 indexi cu valori cuprinse intre 0 si 8.
+
+	Predicatul va avea 5 paramterii: 
+	-Nume - numele matricei
+	+ID - ID ul elementului care va fi unificat dupa apelul predicatului element.
+	-Vad - care va reprezenta valoare cautata
+	+X - X ul elementului
+	+Y - Y ul elementului
+
+	Predicatul va apela predicatul element, va unifica atomul ID, va unifica mai apoi L(lenght) 
+	si D(depth) prin intermediul predicatului latime respectiv adancime iar apoi se vor afla 
+	X-ul si Y-ul.
+
 */
 
-getN([],N,X)    :- write('No such thing'),nl.
-getN([H|T],1,X) :- X is H,nl.
-getN([H|T],N,X) :- N1 is N-1, getN(T,N1,X). 
+element_3('m3', 0, 0).
+element_3('m3', 1, 1).
+element_3('m3', 2, 2).
+element_3('m3', 3, 3).
+element_3('m3', 4, 4).
+element_3('m3', 5, 5).
+element_3('m3', 6, 6).
+element_3('m3', 7, 7).
+element_3('m3', 8, 8).
 
-element('matrixThree',0,0).
-element('matrixThree',1,1).
-element('matrixThree',2,2).
-element('matrixThree',3,3).
-element('matrixThree',4,4).
-element('matrixThree',5,5).
-element('matrixThree',6,6).
-element('matrixThree',7,7).
-element('matrixThree',8,8).
-element('matrixThree',9,9).
+latime(X) :- X is 3.
+adancime(Y) :- Y is 3.
 
-axisX(X) :- X is 3.
-axisY(Y) :- Y is 3.
-
-getElement(Name,Index,Value,X,Y) :- element(Name,Index,Value),axisX(L),axisY(D),X is mod(Index,L),Y is Index/D.   
+getElement(Nume, ID, Val, X, Y) :- element(Nume, ID, Val), latime(L), adancime(D), X is mod(ID,L), Y is ID/D.   
