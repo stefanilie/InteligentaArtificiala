@@ -1,70 +1,38 @@
-/* Autor: Ilie Stefan Ionut 
- Date: 11.05.2014 */
+%Author: Ilie Stefan Ionut 242
+%Date: 29.05.2014
 
-/* This program generate a list of all factors a number has and uses said list to determine if a number is perfect or not.   */
+% Acest predicat va genera o lista de divizori pentru parametrul "Numar".
+% gaseste_div va avea ca parametrii  2 numere, o lista care o vom folosi la incremenare si inca o lista 
+% in care vom stoca lista finala de divizori.
+divizori(Numar, Output):-gaseste_div(2, Numar, [1], Output).
 
-/* Help predicate: */
-/* help(+X) */
+% Acesta este predicatul care va atribui lista finala. El va fi apelat cand Incr va avea valoarea numarului in sine.
+gaseste_div(Numar, Numar, Lista, Output):- Output = [Numar|Lista], ! .
 
-help('List') :- write('getAllDivisors(+Number,-List)').
-help('Perfect') :- write('isPerfect(+Number)').
+% Acesta este predicatul care va calcula lisa propiu-zisa. El va avea ca parametrii un increment, numarul in sine, 
+% lista care va fi costruita, si lista finala, cea care va contine divizorii lui "Numar".
+gaseste_div(Incr, Numar, Lista, Output):- Incr2 is Incr+1, (mod(Numar, Incr) =:= 0, gaseste_div(Incr2, Numar, [Incr|Lista], Output); 
+                                    mod(Numar, Incr) =\= 0, gaseste_div(Incr2, Numar, Lista, Output)).
 
-/* Corner Cases: */
-/* corner(X) */
- 
-corner(X) :- write('None.').
 
-/*
-    --- Am incercat sa rezolv problema in acest mod, insa nu merge.
-         Problema este ca nu pot modifica lista.
-         Ori intra in bucla infinita, ori imi genereaza o lista de forma [2,2,2,...], ori imi spune "no", fara sa imi dea o valoare pentru L.
-         Cum pot adaga un element unei liste? Add de unul singur merge, insa in cadrul programului nu functuoneaza.  
+% Predicatul este predicatul principal. Acesta va apela pe rand predicatul divizori pt a obtine 
+% lista de parametrii, apoi va renunta la X (care este headul listei, si din linia 7 a scriptului, 
+% se poate observa ca are valoarea 1) si va trece la apelarea predicatului verif_perfect, pentru
+% ca in final sa verifice egalitatea dintre suma divizorilor si numarul in sine. 
+perfect(Numar):- divizori(Numar, Lista), [X|List1] = Lista, verif_perfect(List1, Sum), Sum =:= Numar.
+
+% Predicatul verif_perfect va parcurge lista si va calcula suma elementelor.
+verif_perfect([1],1).
+verif_perfect([X|Lista],Sum):-verif_perfect(Lista, Sum1), Sum is Sum1 + X.
+
+
+/*Interogari
+| ?- perfect(5).
+no
+| ?- perfect(6).
+yes
+| ?- perfect(7).
+no
+| ?- perfect(28).
+yes
 */
-
-/*
-isDivisor(N,ToCheck) :- ToCheck>0, N>ToCheck, mod(N,ToCheck) =:= 0.
-
-add(X, L, [X|L]).
-
-iterate(N,ToCheck,L) :- (ToCheck =< N),
-                                    (
-                                        ( 
-                                            isDivisor(N,ToCheck) ,
-                                            /* Problema, nu pot adauga elemente listei. Nu este singurul mod in care am incercat, am folosit si append, dar nu reusesc sa il fac se mearga */
-                                            add(ToCheck,L,LNew),
-                                            NextCheck is ToCheck + 1,
-                                            iterate(N,NextCheck,LNew )
-                                        )
-                                        ;
-                                        ( 
-                                            \+isDivisor(N,ToCheck), 
-                                            NextCheck is ToCheck + 1, 
-                                            iterate(N,NextCheck,L ) 
-                                        )
-                                    ).
-
-getDivisors(N,L) :- iterate(N,2,L).
-*/
-
-/*
-The program makes use of the pre-built "between" predicate.
-
-isDivisor(+N,+ToCheck) checks if ToCheck is a factor of N.
-getADivisor(+Number,-Divisor) will return a factor of Number. It does so by generating all numbers between 1 and Number/2 ( will generate one number at a time ) ( used // to always get integers ) and
-return the first number that verifies isDivisor().
-getAllDivisors(+Number,+List) will bag all divisors in a List.
-isPerfect(+Number) generates the list of divisors, sums the elements of the list and compares it against the Number. If they are equal the number is Perfect. Else, it is Imperfect.
-*/
-
-/* --- Solution --- */
-:- use_module(library(between)).
-
-isDivisor(N,ToCheck) :- ToCheck>0, N>ToCheck, mod(N,ToCheck) =:= 0.
-getADivisor(Number,Divisor) :- Optimization is Number//2, between(1,Optimization,Divisor),isDivisor(Number,Divisor).
-getAllDivisors(Number,List) :- bagof(Divisor , getADivisor(Number,Divisor) , List).
-
-sumList([], 0).
-sumList([H|T], Sum) :- sumList(T, Rest), Sum is H + Rest.
-
-isPerfect(Number) :- getAllDivisors(Number,L),sumList(L,Sum),(Number =:= Sum)->(write('Perfect.'));(write('Imperfect.')).
-/* --- -------- --- */

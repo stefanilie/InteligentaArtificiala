@@ -1,5 +1,21 @@
 /*Predicatul de citire. Acesta va citi sirul de caractere din fisier.*/
-list_char(FisIn,ListCh):-seeing(Input_curent), see(FisIn), read(String), seen, see(Input_curent), atom_chars(String,ListCh).
+%list_char(FisIn,ListCh):-seeing(Input_curent), see(FisIn), read(String), seen, see(Input_curent), atom_chars(String,ListCh).
+
+:-dynamic lit/1.
+list_char(Fisin, ListCh):-seeing(Input_curent),
+                       see(Fisin),
+                       repeat,
+                         get_char(X),
+                           (X==end_of_file
+                           ;
+                           assert(lit(X)), fail),
+                       !,
+                       faLista(ListCh),
+                       seen,
+                       see(Input_curent).
+
+
+faLista(Lista):- findall(X, lit(X), Lista).
 
 /*Pasul de oprire al recursivitatii.*/
 check([],_,_,_,_,[]).
@@ -12,6 +28,4 @@ check([Ch|ListCh],Lit1,Lit2,Nr1,Nr2,List):-Lit1 \== Lit2,((Lit1 == Ch,Nr1Aux is 
 
 
 /*Acesta este predicatul propiu zis. El va citi prima litera, a doua litera, le va unifica cu Lit1 si respectiv Lit2 si va apela list_char, care va citi si alcatui lista de caractere*/
-pred(FisIn, Lit1, Lit2, List):- write('Prima litera:'), read(Lit1), nl, 
-								write('A doua litera:'), read(Lit2), nl,
-								list_char(FisIn,ListCh), check(ListCh,Lit1,Lit2,0,0,List).
+pred(FisIn, Lit1, Lit2, List):-	list_char(FisIn,ListCh), check(ListCh,Lit1,Lit2,0,0,List).

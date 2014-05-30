@@ -1,0 +1,9 @@
+'Ion Popescu'. liber. 'George Danescu'. 'Dan Georgescu'. 'Ion Costescu'. 0. 
+'George Danescu'. foarte_ocupat. 'Ion Popescu'. 'Ion Costescu'. 'Dan Georgescu'. 'Lia Dobrescu'. 'Diana Gigescu'. 0.
+'Dan Georgescu'. liber. 'Ion Popescu'. 'George Danescu'. 0.
+'Ion Costescu'. liber. 'Ion Popescu'. 'Daria Geescu'. 'Lia Dobrescu'. 'George Danescu'. 0.
+'Lia Dobrescu'. ocupat. 'George Danescu'. 'Ion Costescu'. 'Daniel Gegescu'. 0.
+'Diana Gigescu'. liber. 'George Danescu'. 0.
+'Daniel Gegescu'. liber. 'Lia Dobrescu'. 0.
+'Daria Geescu'. liber. 'Ion Costescu'. 'Teodor Andreescu'. 0.
+'Teodor Andreescu'. liber. 'Daria Geescu'.
