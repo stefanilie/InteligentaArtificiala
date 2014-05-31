@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 Algoritmul A*
 
 1.Creeaza un graf de cautare G, constand numai din nodul initial n(indice)0 .Plaseaza n0 intr-o lista numita OPEN.
@@ -81,6 +80,4 @@ Optimalitatea Algoritmului A*
 	Cu presupunerile facute,conform (3) si (4) am aratat ca
 			f*>=g(G2)
 Aceasta concluzie contrazice faptul ca G2 este suboptimal,Ea arata ca A* nu selecteaza niciodata pentru extindere un scop suboptimal. A* intoarce o solutie numai dupa ce a selectat-o pentru extindere, de aici rezultand faptul ca A* este un algoritm optim.
-
->>>>>>> d8bd9747b18563df111d2f706dc22784a8521e14
 	
