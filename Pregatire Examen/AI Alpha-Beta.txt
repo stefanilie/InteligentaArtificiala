@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 Alpha-Beta
 
 Aceasta tehnica aplicata algoritmului Minmax, va intoarce aceleasi rezultare, dar intr-un timp mult mai scurt, deoarece acesta taie anumite ramuri care nu pot influenta decizia finala.
@@ -122,5 +121,4 @@ maibine(Poz,Val,Poz1,Val1,Poz,Val):-
 	mutare_min(Poz),Val > Val1,!;
 	mutare_max(Poz),Val < Val1,!.
 %altfel,Poz1 mai buna
->>>>>>> d8bd9747b18563df111d2f706dc22784a8521e14
 maibine(_,_,Poz1,Val1,Poz1,Val1).
