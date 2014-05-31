@@ -1,12 +1,5 @@
-% Truta Marian Cosmin 242, facut impreuna cu Motoc Laura si Rentea Andreea
-
-/*
-cod preluat din cartea(bibliografie[1]):
-BALCAN Maria Florina, HRISTEA Florentina,
-Aspecte ale Cautarii si Reprezentarii Cunostintelor in Inteligenta Artificiala,
-Editura Universitatii din Bucuresti, 2004
-*/
-% definit mutari si staticval, mutare_min, mutare_max!!!!!!!!!!!!!!!!
+% Author: Ilie Stefan Ionut 242 impreuna cu Stamate Oana
+% Data: 31.05.2014
 
 %st(Jucator_curent,Lista_numere,Scor_jucator_curent,Scor_jucator_opus,Nivel,Max)  <-- starea curenta (nivel = cate nivele mai pot sa mai extind din arbore)
 

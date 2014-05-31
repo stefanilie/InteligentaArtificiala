@@ -1,6 +1,7 @@
-%Truta Marian Cosmin, 242, facut impreuna cu Rentea Andreea si Motoc Laura
+%Author: Ilie Stefan Ionut impreuna cu Stamate Oana
+%Data: 31.05.2014
 
-s([Gol|Placute],[Placuta|Placute1],1):- interschimba(Gol,Placuta,Placute,Placute1) .
+succ([Gol|Placute],[Placuta|Placute1],1):- interschimba(Gol,Placuta,Placute,Placute1) .
 modul(A,B,D):- D is A-B, D>=0,!; D is B-A .
 distman(X/Y,X1/Y1,D):- modul(X,X1,Dx),modul(Y,Y1,Dy), D is Dx+Dy .
 interschimba(Gol,Placuta,[Placuta|Ts],[Gol|Ts]):- distman(Gol,Placuta,1) .
@@ -31,12 +32,12 @@ arata_solutie([]) .
 arata_solutie([P|L]):- arata_solutie(L),nl,write('-------'), arata_poz(P) .
 arata_poz([S0,S1,S2,S3,S4,S5,S6,S7,S8]):- membru(Y,[3,2,1]),nl,membru(X,[1,2,3]),membru(P-X/Y,[' '-S0,1-S1,2-S2,3-S3,4-S4,5-S5,6-S6,7-S7,8-S8]), write(P),write('  '),fail; true .
 
-puzzle:- tell('D:\\puzzle.txt'),initial(Poz),bestfirst(Poz,Sol), arata_solutie(Sol), told .
+puzzle:- tell('C:\\temp\\puzzle.txt'),initial(Poz),bestfirst(Poz,Sol), arata_solutie(Sol), told .
 
 bestfirst(Nod_initial,Solutie):- expandeaza([],l(Nod_initial,0/0),9999999,_,da,Solutie) . 
 expandeaza(Drum,l(N,_),_,_, da,[N|Drum]):-scop(N) . 
 
-expandeaza(Drum,l(N,F/G),Limita,Arb1,Rez,Sol):- F=<Limita, (bagof(M/C,(s(N,M,C), \+ (membru(M,Drum))),Succ),!, listasucc(G,Succ,As),cea_mai_buna_f(As,F1), 
+expandeaza(Drum,l(N,F/G),Limita,Arb1,Rez,Sol):- F=<Limita, (bagof(M/C,(succ(N,M,C), \+ (membru(M,Drum))),Succ),!, listasucc(G,Succ,As),cea_mai_buna_f(As,F1), 
 expandeaza(Drum,t(N,F1/G,As),Limita,Arb1, Rez,Sol); Rez=imposibil) . 
 
 
